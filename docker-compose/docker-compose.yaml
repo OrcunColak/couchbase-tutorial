@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  couchbase:
+    image: couchbase
+    container_name: couchbase
+    environment:
+      - COUCHBASE_ADMINISTRATOR=admin
+      - COUCHBASE_PASSWORD=password
+    #  http://localhost:8091
+    ports:
+      - "8091:8091"
+      - "8092:8092"
+      - "8093:8093"
+      - "11210:11210"
