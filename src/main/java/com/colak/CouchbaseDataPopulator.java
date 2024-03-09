@@ -20,11 +20,12 @@ public class CouchbaseDataPopulator {
     public static void main(String[] args) {
 
         CouchbaseDataPopulator couchbaseDataPopulator = new CouchbaseDataPopulator();
-        couchbaseDataPopulator.insertDocuments("items-1");
-        couchbaseDataPopulator.insertDocuments("items-2");
+        couchbaseDataPopulator.insertDocuments("items-1", ITEM_COUNT);
+        couchbaseDataPopulator.insertDocuments("items-2", ITEM_COUNT);
+        couchbaseDataPopulator.insertDocuments("items-3", 101);
     }
 
-    private void insertDocuments(String collectionName) {
+    private void insertDocuments(String collectionName, int itemCount) {
         // Connect to the Couchbase cluster
         try (Cluster cluster = Cluster.connect(clusterAddress, username, password)) {
             Bucket bucket = cluster.bucket(bucketName);
@@ -33,7 +34,7 @@ public class CouchbaseDataPopulator {
             CollectionSpec spec = CollectionSpec.create(collectionName);
             collectionMgr.createCollection(spec);
             Collection collection = bucket.collection(collectionName);
-            for (int i = 0; i < ITEM_COUNT; i++) {
+            for (int i = 0; i < itemCount; i++) {
                 String id = collectionName + "-id-" + i;
                 JsonObject jsonObject = JsonObject.create().put("value", collectionName + "-value-" + i);
                 collection.insert(id, jsonObject);
